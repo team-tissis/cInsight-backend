@@ -24,20 +24,47 @@ class FavoriteViewSet(viewsets.ModelViewSet):
     filter_class = FavoriteFilter
     pagination_class = CustomPagination
 
+
+    # @transaction.atomic
+    # @action(detail=False, methods=[HttpMethod.GET.name])
+    # def fetch_by_account_address(self, request: Request, *args, **kwargs):
+    #     account_address = request.query_params.get("account_address")
+    #     print("account_address:", account_address)
+    #     if account_address is None:
+    #         return Response({"user": None, "message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         users = CustomeUser.objects.filter(eoa=account_address)
+    #         if users.count() == 0:
+    #             return Response({"user": None}, status=status.HTTP_404_NOT_FOUND)
+    #         else:
+    #             user = users.first()
+    #             serializer = UserSerializer(user)
+    #             return Response({"user": serializer.data}, status=status.HTTP_200_OK)
+
     @transaction.atomic
-    def index(self, request: Request, *args, **kwargs):
-        eoa = request.data.get("eoa")
-        if not (eoa is not None):
-            return Response({"user": None, "message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
-        user = CustomeUser.objects.filter(eoa=eoa).get()
+    @action(detail=False, methods=[HttpMethod.GET.name])
+    def user_favorites(self, request: Request, *args, **kwargs):
+        print("="*100)
+        account_address = request.query_params.get("account_address")
+        print(request.query_params.get("account_address"))
+        print(account_address)
+        print("="*100)
+
+        if account_address is None:
+            return Response({"message": "いいね取得失敗"}, status=status.HTTP_400_BAD_REQUEST)
+        user = CustomeUser.objects.filter(eoa=account_address)
+        print(user)
         try:
             # 自分が発行した勉強会を取得
             lectures = Lecture.objects.filter(author=user)
+            print(lectures)
             favorite_list = [
                 Favorite.objects.filter(lecture=lecture, is_synced=False).values('id', 'vote_weight')
                 for lecture in lectures
             ]
+            print(favorite_list)
             return Response({"favorite_list": favorite_list}, status=status.HTTP_200_OK)
+            # return Response(None, status=status.HTTP_200_OK)
         except:
             return Response({"message": "無効なユーザーです"}, status=status.HTTP_404_NOT_FOUND)
 
