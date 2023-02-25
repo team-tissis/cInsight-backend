@@ -25,13 +25,31 @@ class FavoriteViewSet(viewsets.ModelViewSet):
     pagination_class = CustomPagination
 
     @transaction.atomic
+    def index(self, request: Request, *args, **kwargs):
+        eoa = request.data.get("eoa")
+        if not (eoa is not None):
+            return Response({"user": None, "message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
+        user = CustomeUser.objects.filter(eoa=eoa).get()
+        try:
+            # 自分が発行した勉強会を取得
+            lectures = Lecture.objects.filter(author=user)
+            favorite_list = [
+                Favorite.objects.filter(lecture=lecture, is_synced=False).values('id', 'vote_weight')
+                for lecture in lectures
+            ]
+            return Response({"favorite_list": favorite_list}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message": "無効なユーザーです"}, status=status.HTTP_404_NOT_FOUND)
+
+    @transaction.atomic
     def create(self, request: Request, *args, **kwargs):
         lectureId = request.data.get("lecture_id")
         eoa = request.data.get("eoa")
         
         if not ((lectureId is not None) and (eoa is not None)):
             return Response({"user": None, "message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
-
+        # ユーザーのレクチャーを全て取得
+        # レクチャーにいいねしたユーザーで同期がfalseのものの個数を計算
         user = CustomeUser.objects.filter(eoa=eoa).get()
         lecture = Lecture.objects.get(id=lectureId)
 
