@@ -62,6 +62,6 @@ class LectureCustomerViewSet(viewsets.ModelViewSet):
         ]
 
         try:
-            return Response({"result": customers}, status=status.HTTP_200_OK)
+            return Response({"results": customers}, status=status.HTTP_200_OK)
         except:
-            return Response({"result": []}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"results": []}, status=status.HTTP_404_NOT_FOUND)
