@@ -31,10 +31,13 @@ class LectureCustomerViewSet(viewsets.ModelViewSet):
         eoa = request.data.get("eoa")
 
         if not ((lectureId is not None) and (eoa is not None)):
-            return Response({"user": None, "message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
 
         user = CustomeUser.objects.filter(eoa=eoa).get()
         lecture = Lecture.objects.get(id=lectureId)
+
+        if (LectureCustomer.objects.filter(user=user, lecture=lecture) is not None):
+            return Response({"message": "すでに参加登録しています"}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
             LectureCustomer.objects.create(user=user, lecture=lecture)
