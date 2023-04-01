@@ -45,15 +45,20 @@ class LectureCustomerViewSet(viewsets.ModelViewSet):
     @transaction.atomic
     @action(detail=False, methods=[HttpMethod.GET.name])
     def index(self, request: Request, *args, **kwargs):
-        lectureId = request.data.get("lecture_id")
-        
+        lectureId = request.query_params.get("lecture_id")
+        print("="*100)
+        print(lectureId)
+        print(request)
+        print("="*100)
+
         if not (lectureId is not None):
             return Response({"user": None, "message": "勉強会IDが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
 
         lecture = Lecture.objects.get(id=lectureId)
         joined_customers =  LectureCustomer.objects.filter(lecture=lecture)
         customers = [ lecture_customer.user for lecture_customer in joined_customers]
-
+        
+        print(customers)
         try:
             return Response({"result": customers}, status=status.HTTP_200_OK)
         except:
