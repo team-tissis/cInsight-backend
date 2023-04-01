@@ -41,6 +41,10 @@ class LectureCustomerViewSet(viewsets.ModelViewSet):
         
         try:
             LectureCustomer.objects.create(user=user, lecture=lecture)
+            # 勉強会の現在の参加人数を1増加
+            lecture.attendee_num += 1
+            lecture.save()
+            
             return Response({"message": "勉強会に参加登録しました"}, status=status.HTTP_200_OK)
         except:
             return Response({"message": "勉強会に参加登録できませんでした"}, status=status.HTTP_404_NOT_FOUND)
