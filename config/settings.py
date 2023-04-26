@@ -27,9 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["0.0.0.0", "localhost"]
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     'api',
-
     'django_extensions',
     "nplusone.ext.django",
     "rest_framework.authtoken",
@@ -87,14 +84,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'shion',
-        'PASSWORD': '',
+        'NAME': 'c-insightdb',
+        'USER': 'gonza',
+        'PASSWORD': '666666',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
-
 
 
 # Password validation
