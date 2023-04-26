@@ -88,5 +88,4 @@ db/*
 .unison.._.DS_Store.415cb854f3dfceedc91d1559b608f39c.unison.tmp
 tmp/dl
 api/migrations
-
 .vscode/
