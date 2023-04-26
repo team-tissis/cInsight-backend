@@ -32,6 +32,8 @@ class FavoriteViewSet(viewsets.ModelViewSet):
         if account_address is None:
             return Response({"message": "いいね取得失敗"}, status=status.HTTP_400_BAD_REQUEST)
         user = CustomeUser.objects.filter(eoa=account_address)
+        if not user.exists():
+            return Response({"results": []}, status=status.HTTP_200_OK)
         try:
             # 自分が発行した勉強会を取得
             lectures = Lecture.objects.filter(author=user.get())
