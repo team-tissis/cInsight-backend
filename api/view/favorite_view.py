@@ -1,6 +1,9 @@
 from django.db.models import QuerySet
 from django_filters import rest_framework as filters
 from rest_framework import viewsets, status
+from django.utils import timezone
+from datetime import datetime, timedelta
+
 
 from api.filters import CustomPagination, NoPagination
 from api.models import Lecture, CustomeUser, Favorite
@@ -82,17 +85,26 @@ class FavoriteViewSet(viewsets.ModelViewSet):
         except:
             return Response({"message": "オンチェーンへのいいねを同期に失敗しました"}, status=status.HTTP_404_NOT_FOUND)
 
-    # @transaction.atomic
-    # def destroy(self, request: Request, *args, **kwargs):
-    #     favoriteId = request.data.get("id")
-    #     favorite = Favorite.objects.get(id=favoriteId)
-    #     if favorite is None:
-    #         return Response({"user": None, "message": "いいねが存在しません"}, status=status.HTTP_400_BAD_REQUEST)
-    #     try:
-    #         lecture = favorite.lecture
-    #         lecture.favo -= 1
-    #         lecture.save()
-    #         favorite.delete()
-    #         return Response({"message": "勉強会を取り消しました。"}, status=status.HTTP_200_OK)
-    #     except:
-    #         return Response({"message": "いいねが見つかりませんでした"}, status=status.HTTP_404_NOT_FOUND)
+    
+    @transaction.atomic
+    @action(detail=False, methods=[HttpMethod.GET.name])
+    def my_favos(self, request: Request, *args, **kwargs):
+        MONTHLY_FAVO_LIMIT = 10
+        account_address = request.query_params.get("account_address")
+        if account_address is None:
+            return Response({"message": "いいね取得失敗"}, status=status.HTTP_400_BAD_REQUEST)
+        user = CustomeUser.objects.filter(eoa=account_address)
+        if not user.exists():
+            return Response({"results": MONTHLY_FAVO_LIMIT}, status=status.HTTP_200_OK)
+        try:
+            now = timezone.now()
+            # 今月の最初の日を取得
+            start_of_month = datetime(now.year, now.month, 1, tzinfo=timezone.utc)
+            # 来月の初日を取得
+            start_of_next_month = datetime(now.year, now.month, 1, tzinfo=timezone.utc) + timedelta(days=32)
+            # 来月の初日までの日数を計算して、余分な日数を引く
+            start_of_next_month -= timedelta(days=start_of_next_month.day)
+            favorite_count = Favorite.objects.filter(user=user.first(), created_at__gte=start_of_month, created_at__lt=start_of_next_month).count()
+            return Response({"results": favorite_count}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message": MONTHLY_FAVO_LIMIT}, status=status.HTTP_404_NOT_FOUND)
