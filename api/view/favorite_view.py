@@ -92,7 +92,7 @@ class FavoriteViewSet(viewsets.ModelViewSet):
         MONTHLY_FAVO_LIMIT = 10
         account_address = request.query_params.get("account_address")
         if account_address is None:
-            return Response({"message": "いいね取得失敗"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"results": MONTHLY_FAVO_LIMIT}, status=status.HTTP_200_OK)
         user = CustomeUser.objects.filter(eoa=account_address)
         if not user.exists():
             return Response({"results": MONTHLY_FAVO_LIMIT}, status=status.HTTP_200_OK)
