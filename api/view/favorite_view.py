@@ -56,6 +56,7 @@ class FavoriteViewSet(viewsets.ModelViewSet):
     def create(self, request: Request, *args, **kwargs):
         lectureId = request.data.get("lecture_id")
         eoa = request.data.get("eoa")
+        favoNum = request.data.get("favo_newly_added")
         
         if not ((lectureId is not None) and (eoa is not None)):
             return Response({"user": None, "message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
@@ -67,7 +68,7 @@ class FavoriteViewSet(viewsets.ModelViewSet):
             Favorite.objects.create(user=user, lecture=lecture)
             if lecture.favo is None:
                 lecture.favo = 0
-            lecture.favo += 1
+            lecture.favo += favoNum
             lecture.save()
             return Response({"message": "勉強会にいいねしました"}, status=status.HTTP_200_OK)
         except:

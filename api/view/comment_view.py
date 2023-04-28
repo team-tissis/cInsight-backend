@@ -28,6 +28,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=[HttpMethod.PUT.name])
     def favo(self, request: Request, *args, **kwargs):
         commentId = request.data.get("id")
+        favoNum = request.data.get("favo_newly_added")
         if commentId is None:
             return Response({"user": None, "message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
         else:
@@ -35,11 +36,11 @@ class CommentViewSet(viewsets.ModelViewSet):
                 comment = Comment.objects.get(id=commentId)    
                 if comment.favo is None:
                     comment.favo = 0
-                comment.favo += 1
+                comment.favo += favoNum
                 comment.save()
                 return Response({"message": "コメントにいいねしました"}, status=status.HTTP_200_OK)
             except:
-                return Response({"message": "Commentが見つかりませんでした"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"message": "コメントが見つかりませんでした"}, status=status.HTTP_404_NOT_FOUND)
         
         # account_address = request.query_params.get("")
         # if account_address is None:
