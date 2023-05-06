@@ -2,7 +2,7 @@
 
 postgresql で Database を作って、
 settings.py の以下を編集。
-databaseやパスワードを設定した場合はそれに則って編集。
+database やパスワードを設定した場合はそれに則って編集。
 
 ```
 DATABASES = {
@@ -17,24 +17,16 @@ DATABASES = {
 }
 ```
 
-その後，
+その後、
 
 ```
 pipenv install
 pipenv shell
-python manage.py makemigrations
-python manage.py migrate
-```
-
-migration がうまくいかない場合は，
-
-```
 python manage.py makemigrations api
 python manage.py migrate api
 ```
 
-を試してみると良い．
-
+を実行する。
 
 そして、
 
