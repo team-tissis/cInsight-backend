@@ -3,7 +3,7 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets, status
 
 from api.filters import CustomPagination, NoPagination
-from api.models import Comment, CustomeUser
+from api.models import Comment, CustomUser
 from api.serializers.comment_serializer import CommentSerializer
 
 from rest_framework.decorators import action

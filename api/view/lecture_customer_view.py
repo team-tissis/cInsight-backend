@@ -3,7 +3,7 @@ from django_filters import rest_framework as filters
 from rest_framework import viewsets, status
 
 from api.filters import CustomPagination, NoPagination
-from api.models import Lecture, CustomeUser, LectureCustomer
+from api.models import Lecture, CustomUser, LectureCustomer
 from api.serializers.lecture_customer_serializer import LectureCustomerSerializer
 
 from rest_framework.decorators import action
@@ -33,7 +33,7 @@ class LectureCustomerViewSet(viewsets.ModelViewSet):
         if not ((lectureId is not None) and (eoa is not None)):
             return Response({"message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = CustomeUser.objects.filter(eoa=eoa).get()
+        user = CustomUser.objects.filter(eoa=eoa).get()
         lecture = Lecture.objects.get(id=lectureId)
 
         if (LectureCustomer.objects.filter(user=user, lecture=lecture).exists()):
