@@ -27,7 +27,7 @@ router.register(r"users", UserViewSet)
 """ Favorite """
 router.register(r"favorites", FavoriteViewSet)
 
-""" LectureCsutomer """
+""" LectureCustomer """
 router.register(r"lecture_customers", LectureCustomerViewSet)
 
 # Basic router
