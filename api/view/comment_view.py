@@ -30,7 +30,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         commentId = request.data.get("id")
         favoNum = request.data.get("favo_newly_added")
         if commentId is None:
-            return Response({"user": None, "message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"user": None, "message": "コメントIDが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
         else:
             try:
                 comment = Comment.objects.get(id=commentId)    
@@ -41,15 +41,3 @@ class CommentViewSet(viewsets.ModelViewSet):
                 return Response({"message": "コメントにいいねしました"}, status=status.HTTP_200_OK)
             except:
                 return Response({"message": "コメントが見つかりませんでした"}, status=status.HTTP_404_NOT_FOUND)
-        
-        # account_address = request.query_params.get("")
-        # if account_address is None:
-        #     return Response({"user": None, "message": "アカウントアドレスが指定されていません"}, status=status.HTTP_400_BAD_REQUEST)
-        # else:
-        #     users = CustomeUser.objects.filter(eoa=account_address)
-        #     if users.count() == 0:
-        #         return Response({"user": None, "message": "Userが見つかりませんでした"}, status=status.HTTP_404_NOT_FOUND)
-        #     else:
-        #         user = user.first()
-        #         serializer = UserSerializer(user)
-        #         return Response({"user": serializer.data}, status=status.HTTP_200_OK)
