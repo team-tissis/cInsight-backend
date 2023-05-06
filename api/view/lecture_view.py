@@ -17,7 +17,8 @@ class LectureFilter(filters.FilterSet):
     class Meta:
         model = Lecture
         fields = "__all__"
-        exclude = ["attendee_eoas"]
+        # tags については、フロントのフォームで validation するので、ここでは除外
+        exclude = ["tags", "attendee_eoas"]
 
 
 class LectureViewSet(viewsets.ModelViewSet):

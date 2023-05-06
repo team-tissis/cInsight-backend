@@ -8,7 +8,8 @@ class Lecture(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name="lectures")
     from_date = models.DateTimeField(null=True) 
     to_date = models.DateTimeField(null=True) 
-    tags = models.TextField(null=True)
+    # tags = models.TextField(null=True) 
+    tags = JSONField(null=True)
     description = models.TextField(null=True)
     material_url = models.URLField(null=True) # 資料 url
     movie_url = models.URLField(null=True) # 動画 url
