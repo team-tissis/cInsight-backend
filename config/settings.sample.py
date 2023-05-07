@@ -86,8 +86,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'hidenoriiwakiri',
+        'NAME': 'cinsightdb',
+        'USER': 'your_user_name',
         # 'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '5432',
