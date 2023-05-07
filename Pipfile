@@ -52,6 +52,7 @@ beautifulsoup4 = "*"
 rest-pandas = "*"
 more-itertools = "==8.13.0"
 scikit-learn = "==1.0.2"
+ipython = "*"
 
 [dev-packages]
 ipython = "*"
