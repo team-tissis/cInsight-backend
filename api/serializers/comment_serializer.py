@@ -1,5 +1,5 @@
 from rest_framework import serializers 
-from api.models import Comment, CustomeUser
+from api.models import Comment, CustomUser
 from api.serializers.user_serializer import UserSerializer
  
  

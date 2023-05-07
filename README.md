@@ -1,15 +1,16 @@
-# CInsight DAO Django Project
+# cInsightBackend
 
+## 環境構築
 postgresql で Database を作って、
 settings.py の以下を編集。
-databaseやパスワードを設定した場合はそれに則って編集。
+database やパスワードを設定した場合はそれに則って編集。
 
 ```
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'your_name',
+        'NAME': 'c-insightdb',
+        'USER': 'your_user_name',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '5432',
@@ -17,32 +18,22 @@ DATABASES = {
 }
 ```
 
-その後，
+その後、
 
 ```
 pipenv install
 pipenv shell
-python manage.py makemigrations
-python manage.py migrate
-```
-
-migration がうまくいかない場合は，
-
-```
 python manage.py makemigrations api
 python manage.py migrate api
 ```
 
-を試してみると良い．
-
-
-そして、
+を実行し、マイグレーションを行う。続いて、
 
 ```
 python manage.py shell_plus
 ```
 
-起動したら、
+を実行し、起動したら、
 
 ```
 >>> User(username="hoge").save()
@@ -58,7 +49,7 @@ daofication の React のレポジトリの.env.development に、
 REACT_APP_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
-みたいな感じで paste
+という形でペースト。
 
 そして、shell_plus を抜けて、
 
@@ -66,4 +57,4 @@ REACT_APP_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 pipenv run server
 ```
 
-したら、フロントエンドと連携できます。
+を実行すれば、フロントエンドと連携できる。

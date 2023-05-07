@@ -7,6 +7,7 @@ from api.view.comment_view import CommentViewSet
 from api.view.lecture_view import LectureViewSet
 from api.view.proposal_view import ProposalViewSet
 from api.view.user_view import UserViewSet
+from api.view.lecture_customer_view import LectureCustomerViewSet
 
 router = routers.DefaultRouter()
 
@@ -21,6 +22,9 @@ router.register(r"proposals", ProposalViewSet)
 
 """ User """
 router.register(r"users", UserViewSet)
+
+""" LectureCustomer """
+router.register(r"lecture_customers", LectureCustomerViewSet)
 
 # Basic router
 urlpatterns = router.urls

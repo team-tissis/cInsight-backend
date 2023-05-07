@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from api.models.lecture import Lecture
 from hashids import Hashids
-from api.models.user import CustomeUser
+from api.models.user import CustomUser
 
 from typing import (
     Any
@@ -10,7 +10,7 @@ from typing import (
 
 class Comment(models.Model):
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, null=True, related_name="comments") # lecture idは自動で作られる
-    commenter = models.ForeignKey(CustomeUser, on_delete=models.PROTECT, null=True, related_name="comments")
+    commenter = models.ForeignKey(CustomUser, on_delete=models.PROTECT, null=True, related_name="comments")
     code = models.CharField(max_length=64, null=True)
     content = models.TextField(null=True)
     favo = models.IntegerField(default=0)

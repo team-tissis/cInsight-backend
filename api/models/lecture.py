@@ -1,14 +1,14 @@
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 from django.utils import timezone
-from api.models.user import CustomeUser
+from api.models.user import CustomUser
 
 class Lecture(models.Model):
     name = models.TextField(null=True) 
-    author = models.ForeignKey(CustomeUser, on_delete=models.CASCADE, null=True, related_name="lectures")
+    author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, related_name="lectures")
     from_date = models.DateTimeField(null=True) 
     to_date = models.DateTimeField(null=True) 
-    tags = models.TextField(null=True)
+    tags = JSONField(null=True)
     description = models.TextField(null=True)
     material_url = models.URLField(null=True) # 資料 url
     movie_url = models.URLField(null=True) # 動画 url
