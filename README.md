@@ -1,15 +1,20 @@
 # cInsightBackend
 
 ## 環境構築
-postgresql で Database を作って、
-settings.py の以下を編集。
-database やパスワードを設定した場合はそれに則って編集。
+
+postgresql にログインした状態で
+
+```
+create database cinsightdb
+```
+
+によって Database を作った後、 `config/settings.sample.py` をコピーする形で `config/settings.py` を作成して、以下の項目を編集 (パスワードを設定した場合はそれに則って編集)。
 
 ```
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'c-insightdb',
+        'NAME': 'cinsightdb',
         'USER': 'your_user_name',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
@@ -50,6 +55,14 @@ REACT_APP_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 という形でペースト。
+
+> ※ もし、`relation "auth_user" does not exist` というエラーが出て token 生成に失敗するなら、
+>
+> ```
+> python manage.py migrate auth
+> ```
+>
+> を実行しておく。
 
 そして、shell_plus を抜けて、
 
