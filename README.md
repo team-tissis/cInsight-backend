@@ -1,4 +1,4 @@
-# CInsightBackend
+# cInsightBackend
 
 ## 環境構築
 postgresql で Database を作って、
